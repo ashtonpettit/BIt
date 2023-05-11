@@ -1,0 +1,223 @@
+
+@import url('https://fonts.googleapis.com/css?family=Hind');
+
+
+/* MiniGame CSS  */
+
+/* *, *::before, *::after {
+  box-sizing: border-box;
+} */
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+} 
+
+#app {
+  display: flex;
+  height: 100vh;
+  justify-content: space-around;
+  align-items: center;
+  color: #dee2e6;
+  background-color: #212529;
+  font-family: 'Hind', sans-serif;
+}
+
+#startPage-container {
+  display: flex;
+  color: #dee2e6;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  width: 90%;
+  background-color: #212529;
+}
+
+.child-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 90%;
+  background-color: #212529;
+}
+#test {
+  height: auto;
+  width: 90%;
+}
+
+p {
+  font-family: 'Hind', sans-serif;
+  color: #dee2e6;
+}
+#explain {
+  height: auto;
+  width: 100%;
+}
+
+img {
+  height: auto;
+  width: 100px;
+}
+
+img:hover {
+  box-shadow: 0 10px 45px rgba(231, 12, 12, 0.75);
+  transform: scale(1.1);
+}
+
+.active {
+  box-shadow: 0 10px 45px rgba(231, 12, 12, 0.75);
+}
+
+img:active {
+  border:rgba(189, 57, 57, 0.75)
+}
+#images {
+  display: flex;
+  justify-content: space-around;
+  height:auto;
+  width: 90%;
+  background-color: #212529;
+}
+
+#text-container {
+  height: auto;
+  background-color: #212529;
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+#choiceExplain {
+  background-color: #212529;
+  font-family: 'Hind', sans-serif;
+
+}
+#picture-container {
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+}
+
+#button-container {
+  background-color: #212529;
+  display: flex;
+  justify-content: space-around;
+  height: 45px;
+  width: 90%;
+}
+#confirm-container{
+  background-color: #212529;
+}
+button {
+  font-family: 'Hind', sans-serif;
+  text-transform: uppercase;
+  border-radius: 12px;
+}
+
+.container {
+  position: relative;
+  line-height: 0;
+}
+
+.score {
+  position: absolute;
+  top: 10px;
+  line-height: 1;
+}
+
+.score span {
+  font-size: 3.25rem;
+}
+
+.current-score {
+  left: 10px;
+}
+
+.high-score {
+  text-align: right;
+  right: 10px;
+}
+
+canvas {
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0 5px 25px rgba(189, 57, 57, 0.75);
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: absolute; 
+  z-index: 1; 
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4);
+}
+#buttonContainer {
+  height: 20px;
+  width: 300px;
+  display: flex;
+  justify-content: space-around;
+}
+button {
+  width: 100px;
+}
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  text-decoration-color: #212529;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%; /* Could be more or less, depending on screen size */
+}
+
+#dataTable {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+#dataTable tr:nth-child(even){background-color: #f2f2f2;}
+#dataTable tr:hover {background-color: #ddd;}
+#dataTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+
+
+h3, th, td {
+  color: #212529;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+
+ 
