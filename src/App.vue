@@ -1,21 +1,28 @@
 <template>
   <p style="display:none" id="CalculatedVolume"></p>
-  <p style="display: none" id="pageTracker"></p>
   <p style="display: none" id="spriteTracker">0</p>
-  <StartPage></StartPage>
-  <NerdSprite v-if="this.currentPage == 5"></NerdSprite>
-  <SummerSprite v-if="this.currentPage == 5"></SummerSprite>
-  <CuteSprite v-if="this.currentPage == 5"></CuteSprite>
-  <CheekySprite v-if="this.currentPage == 4"></CheekySprite>
-  <MiniGame v-if="currentPage == 4"></MiniGame>
+  <p style="display: none;" id="DifficultyTracker">Easy</p>
+
+  <!-- Sprites and MiniGame Assets -->
+  <NerdSprite v-if="this.spriteID == 'nerdSprite'"></NerdSprite>
+  <SummerSprite v-if="this.spriteID == 'summerSprite'"></SummerSprite>
+  <CuteSprite v-if="this.spriteID == 'cuteSprite'"></CuteSprite>
+  <CheekySprite v-if="this.spriteID == 'cheekySprite'"></CheekySprite>
+  <MiniGameMedium v-if="this.currentPage == 5"></MiniGameMedium>
+  <Leaderboard></Leaderboard>
+
+  <!--Starting Pages containing instructions and Sprite Selection-->
   <div v-if="this.currentPage < 4" id="startPage-container">
+
+      <!--Sprite Selection Page-->
         <div id="picture-container" class="child-container">
             <div id="title"><h1>BIT ENERGY</h1></div>
             <SpriteChoice v-if="currentPage == 1"></SpriteChoice>
         </div>
+        
+        <!--Explanation of Sprite Rules with Tips-->
         <div id="text-container" class="child-container">
             <ExplainChoice v-if="this.currentPage == 1"></ExplainChoice>
-            <SpriteHappy v-if="this.showSprite"></SpriteHappy>
             <div id="explain" v-if="this.currentPage == 2">
                 <p>Say Hello to your new Bit-Doodle, {{ this.bitFriend }}!</p>
                 <p>{{ this.bitFriend }} is your responsibility. Make sure to take care of {{ this.pronoun }}. If you already know how Bit Energy works, feel free to skip.
@@ -23,13 +30,15 @@
             </div>
             <TipsPage v-if="this.currentPage == 3"></TipsPage>
         </div>
+
+        <!--Navigation Buttons-->
         <div class="child-container">
             <div v-if="this.currentPage == 2" id="button-container">
                 <button @click="this.buttonClicked(2)">Explore</button>
                 <button>Skip</button>
             </div>
             <div v-if="this.currentPage == 3">
-                <button @click="this.buttonClicked(3)">Go to Bit-Verse</button>
+                <button @click="this.bitVerseInit()">Go to Bit-Verse</button>
                 <button>Data Breakdown</button>
             </div>
             <div v-if="this.currentPage == 1" id="confirm-container">
@@ -41,7 +50,7 @@
 
 <script>
 
-import MiniGame from "./components/MiniGame/minigame.vue"
+import MiniGameMedium from "./components/MiniGame/minigameMedium.vue"
 import SummerSprite from "./components/Sprite/SummerSprite.vue"
 import CuteSprite from "./components/Sprite/CuteSprite.vue"
 import my_json from "./assets/testfiles/energyData.json"
@@ -50,6 +59,7 @@ import TipsPage from "./components/StartPage/tipsPage.vue";
 import SpriteChoice from "./components/StartPage/spriteChoice.vue";
 import NerdSprite from "./components/Sprite/NerdSprite.vue";
 import CheekySprite from "./components/Sprite/CheekySprite.vue";
+import Leaderboard from "./components/Assets/leadersBoard.vue";
 
 
 export default {
@@ -57,23 +67,25 @@ export default {
   components: {
     SummerSprite,
     CuteSprite,
-    MiniGame,
+    MiniGameMedium,
     ExplainChoice,
     TipsPage,
     SpriteChoice,
     NerdSprite,
-    CheekySprite
+    CheekySprite,
+    Leaderboard
     
   },
   data() {
     return {
       outputToday : 0,
       outputPrev : 0,
-      currentPage: 1,
+      currentPage: 5,
       showSprite: false,
       bitFriend: 'Milo',
       pronoun: 'him',
-      newSession: false
+      newSession: false,
+      spriteID: 'nerdSprite'
 
     }
   },
@@ -82,10 +94,6 @@ export default {
     this.checkSession();
   },
   methods: {
-    navClick(index){
-      this.currentPage = index;
-
-    },
     getPrevDate(date, days){
       let day = date;
       day.setDate(day.getDate()-days);
@@ -122,9 +130,14 @@ export default {
         this.newSession = false;
       }
       else {
-        this.currentPage = 4;
+        this.currentPage = 5;
       }
 
+    },
+    bitVerseInit(){
+      this.spriteID = document.getElementById('spriteTracker').innerHTML;
+      console.log(this.spriteID);
+      this.currentPage = 5;
     },
     buttonClicked(buttonId){
             if (buttonId == 2){
