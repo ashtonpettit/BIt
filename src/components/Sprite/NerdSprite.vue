@@ -1,6 +1,6 @@
 <template>
 
-    <div id="blacksprite-container">
+    <div id="sprite-container">
         <p>PLACEHOLDER: SPRITE HAPPY</p>
               <div class="blackSprite">
                 <div class="bolt"></div>
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style scoped>
-#blacksprite-container{
+#sprite-container{
     position: relative;
     float: left;
     height: 375px;

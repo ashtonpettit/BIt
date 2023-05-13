@@ -2,32 +2,24 @@
 
     <div id="sprite-container">
               <div class="pineapple">
-                  <div class="leg-left"></div>
-                  <div class="leg-right"></div>
-                  <div class = 'head'>
-                <div class = 'eye-left'>
-                    <div class = 'inner-eye'></div>
-                </div>
-                <div class = 'eye-right'>
-                    <div class = 'eye-right-part one'></div>
-                    <div class = 'eye-right-part two'></div>
-                </div>
-                <div class = 'nose'></div>
-                <div class = 'nose-inner'></div>
-                <div class = 'whisker whisker-left'></div>
-                <div class = 'whisker-part whisker-left-one'></div>
-                <div class = 'whisker whisker-right'></div>
-                <div class = 'whisker-part whisker-right-one'></div>
-                <div class = 'whisker-part whisker-top'></div>
-                <div class = 'mouth'>
-                    <div class = 'tongue-part-one'>
-                        <div class = 'tongue-inner-part-one'></div>
-                        <div class = 'tongue-inner-part-two'></div>
+                    <div class="ear ear--left"></div>
+                    <div class="ear ear--right"></div>
+                    <div class="head">
+                    <div class="eye eye--left">
+                        <div class="eye-inside-left"></div>
                     </div>
-                    <div class = 'tongue-part-two'></div>
-                </div>
-            </div>
-                  <div class="shadow"></div>
+                    <div class="nose"></div>
+                    <div class="eye eye--right">
+                        <div class="eye-inside-right"></div>
+                    </div>
+                    <div class="mouth">
+                        <div class="mouth-left"></div>
+                        <div class="mouth-right"></div>
+                    </div>
+                    </div>
+                    <div class="leg-left"></div>
+                    <div class="leg-right"></div>
+                    <div class="shadow"></div>
   
               </div>
       
@@ -53,144 +45,81 @@ export default {
     top: 35%;
     left: 15%;
 }
-
-.nose {
-    width: 45px;
-    height: 55px;
+.head{
     position: absolute;
-    background-color: #364F60;
-    border-radius: 62%/75%;
-    top: 55px;
-    left: 50px;
-}
-
-.nose-inner {
-    width: 15px;
-    height: 25px;
-    background-color: #6C8596;
-    position: absolute;
-    border-radius: 50%;
-    transform: rotate(-30deg);
-    top: 60px;
+    background-color: white;
+    width: 180px;
+    height: 140px;
+    top: 10px;
     left: 70px;
+    transform: translate(-50%, -50%);
+    border-radius: 50% 50% 40% 40%;
+    box-shadow: inset 5vh 1vh 0 1vh rgb(65, 63, 63, 0.2);
+    z-index: 1;
 }
-.eye-left {
-    width: 34px;
-    height: 34px;
-    background-color: #364F60;
-    border-radius: 50%;
-    position: absolute;
-    top: 55px;
-    left: 10px;
-}
-.inner-eye {
-    position: absolute;
-    width: 13px;
-    height: 13px;
-    background-color: #fff;
-    border-radius: 50%;
-    left: 15px;
-    top: 5px;
-}
-.whisker {
-    position: absolute;
-    width: 42px;
-    height: 35px;
-    border: solid 8px #364F60;
-    border-color: transparent transparent #364F60 transparent;
-    border-radius: 50%/25px 25px;
-    top: 40px;
-    left: 100px;
-}
-/*
-.whisker-left {
-    top: 156px;
-    left: 106px;
-}
-
-.whisker-right {
-    top: 156px;
-    left: 143px;
-}
-
-.whisker-part {
-    position: absolute;
-    width: 7.8px;
-    height: 20px;
-    background-color: var(--nose-eye-color);
-    border-radius: 66%/30%;
-}
-
-.whisker-left-one {
-    top: 185px;
-    left: 111px;
-    transform: rotate(-52deg);
-}
-
-.whisker-right-one {
-    top: 185px;
-    left: 188px;
-    transform: rotate(54deg);
-}
-
-.whisker-top {
-    top: 177px;
-    left: 150px;
-}
-
-.mouth {
+.eye{
     position: absolute;
     width: 50px;
-    height: 35px;
-    top: 200px;
-    left: 128px;
-    background-color: var(--nose-eye-color);
-    border-radius: 0 0 50% 50%/0 0 80% 80%;
+    height: 55px;
+    background-color: black;
+    border-radius: 100%;
+    z-index: 2;
 }
-
-.tongue-part-one {
+.eye--left{
+    top: 30px;
+    left: 30px;
+    
+}
+.eye-inside-left{
     position: absolute;
-    width: 30px;
-    height: 15px;
-    top: 13px;
+    width: 15px;
+    height: 20px;
     left: 10px;
-    background-color: var(--tongue-color);
-    border-radius: 0 0 50% 50%/0 0 80% 80%;
+    top: 20px;
+    box-shadow: inset 1vh 1vh 0 2vh #fff;
+    border-radius: 100%;
 }
-
-.tongue-part-two {
+.eye--right{
+    top: 30px;
+    left: 100px;
+}
+.eye-inside-right{
     position: absolute;
-    width: 30px;
-    height: 7px;
-    top: 8px;
+    width: 15px;
+    height: 20px;
     left: 10px;
-    background-color: var(--tongue-color);
-    border-radius: 50% 50% 0 0/80% 80% 0 0;
+    top: 20px;
+    box-shadow: inset -1vh 1vh 0 2vh #fff;
+    border-radius: 100%;
 }
+.nose {
+      position: absolute;
+      width: 10px;
+      height: 12px;
+      left: 85px;
+      top: 85px;
+      background-color: black;
+      border-radius: 3vh 3vh 100% 100%;
+      z-index: 3;
+    }
 
-.tongue-inner-part-one {
+.mouth{
     position: absolute;
-    width: 22.5px;
-    height: 5px;
-    top: 9.5px;
-    left: 4px;
-    background-color: var(--tongue-inner-color);
-    border-radius: 0 0 50% 50%/0 0 100% 100%;
+    width: 25px;
+    height: 20px;
+    top: 90px;
+    left: 85px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
-
-.tongue-inner-part-two {
-    position: absolute;
-    width: 22.5px;
-    height: 6px;
-    top: 4.8px;
-    left: 4px;
-    background-color: var(--tongue-inner-color);
-    border-radius: 50% 50% 0 0 /100% 100% 0 0;
-} */
-
-
+.mouth-left{
+    width: 25px;
+    height: 10px;
+    border-radius: 50%;
+}
 .pineapple{
-    background-color: #ffaa00;
+    background-color: #fff;
     height: 180px;
     width: 140px;
     border-radius: 65px;
@@ -209,7 +138,7 @@ export default {
     content: "";
     height: 80px;
     width: 32px;
-    background-color: #ffaa00;
+    background-color: #fff;
     top: 25px;
     z-index: -1;
     transform-origin: bottom;
@@ -238,64 +167,11 @@ export default {
     }
 }
 
-.leaf{
-    background-color: #498725;
-    height: 70px;
-    width: 70px;
-    border-radius: 70px 0;
-    transform: rotate(135deg);
-    position: absolute;
-    top: -65px;
-    z-index: -1;
-    margin: auto;
-    left: 0;
-    right: 0;
-    animation: leaves 0.5s infinite;
-}
-@keyframes leaves{
-    50%{
-        transform: rotate(135deg) translate(6px, -6px);
-    }
-}
-.leaf:before,
-.leaf:after{
-    position: absolute;
-    content: "";
-    background-color: #3f6b15;
-    height: 70px;
-    width: 70px;
-    border-radius: 70px 0;
-    transform-origin: right;
-    top: -5px;
-
-}
-
-.leaf:before{
-    transform: rotate(40deg);
-    right: 20px;
-    animation: leaf-right 0.5s infinite;
-}
-@keyframes leaf-right{
-    50%{
-        transform: rotate(32deg);
-    }
-}
-.leaf:after{
-    transform: rotate(-40deg);
-    left: 20px;
-    animation: leaf-left 0.5s infinite;
-}
-@keyframes leaf-left{
-    50%{
-        transform: rotate(-32deg);
-    }
-}
-
 .leg-left,
 .leg-right{
     height: 80px;
     width: 32px;
-    background-color: #ffaa00;
+    background-color: #fff;
     position: absolute;
     top: 130px;
     border-radius: 25px;
