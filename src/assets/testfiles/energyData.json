@@ -1,5 +1,18 @@
 [
     {
+      "Van Datum": "18-10-2021",
+      "Van Tijdstip": "12:00:00 AM",
+      "Tot Datum": "24-02-2022",
+      "Tot Tijdstip": "12:00:00 AM",
+      "EAN": "=\"541448820060811903",
+      "Meter": "1SAG1100537841",
+      "Metertype": "Digitale Meter",
+      "Register": "Afname Dag",
+      "Volume": 1903,
+      "Eenheid": "kWh",
+      "Validatiestatus": "Gevalideerd"
+    },
+    {
       "Van Datum": "23-02-2022",
       "Van Tijdstip": "12:00:00 AM",
       "Tot Datum": "24-02-2022",

@@ -32,7 +32,7 @@ const COLOR = {
     PADDLE: '#e64980',
     PINBALL: '#dee2e6'
   };
-const GRAVITY = 0.75;
+const GRAVITY = 1.5;
 const WIREFRAMES = false;
 const BUMPER_BOUNCE = 1.5;
 
@@ -40,6 +40,7 @@ const BUMPER_BOUNCE = 1.5;
 // shared variables
 let currentScore, highScore;
 let engine, world, render, stopperGroup;
+let halfH, halfW;
 
 export default {
   name: 'MiniGame',
@@ -54,8 +55,8 @@ export default {
       gameStart: false,
       matterJsObjects: [],
       difficulty: null,
-      vpHeight: null,
-      vpWidth: null
+      vpHeight: 525,
+      vpWidth: 1230
     }
 
   },
@@ -67,10 +68,12 @@ export default {
     init() {
       // Configuration and Display Settings
       this.difficulty = document.getElementById('DifficultyTracker').innerHTML;
-      this.vpHeight = window.innerHeight - 25;
-      this.vpWidth = window.innerWidth - 25;
+
       document.getElementById('sprite-container').style.display = 'none';
       document.getElementById('buttonContainer').style.display = 'none';
+      console.log('Width: ' + this.vpWidth);
+      console.log('Height: ' + this.vpHeight);
+      
 
       // engine (shared)
       engine = Matter.Engine.create();
@@ -102,28 +105,93 @@ export default {
 
       stopperGroup = Matter.Body.nextGroup(true);
       this.gameStart = true;
-      this.createStaticBodies();  
+      if (this.difficulty == 'Easy'){
+        this.createStaticBodiesEasy();
+      }
+      else if (this.difficulty == 'Medium'){
+        this.createStaticBodiesMedium();
+      }
+      else {
+        this.createStaticBodiesHard();
+      }
+
       this.EventHandler();
 
 
     },
-      createStaticBodies() {
+      createStaticBodiesMedium() {
+      halfW = this.vpWidth/2;
+      halfH = this.vpHeight/2;
       Matter.Composite.add(world, [
-        // canvas boundaries (top, bottom, left, right)
-        //this.boundary(430, -35, 830, 100),
+        // canvas boundaries (top, left, right)(x, y, width, height)
+        this.boundary(halfW, -35, this.vpWidth, 100),
         this.boundary(-30, 400, 100, 800),
-        this.boundary(850, 400, 35, 800),
-        //bumpers
-        this.bumper(165, 240),
-        this.bumper(650, 440),
+        this.boundary(this.vpWidth, 400, 35, 800),
 
         // drops (left, right)
-        this.path(25, 360, PATHS.DROP_LEFT),
-        this.path(830, 130, PATHS.DROP_RIGHT),
+        this.path(25, halfH, PATHS.DROP_LEFT),
+        this.path(halfW * 1.95, halfH * 0.8, PATHS.DROP_RIGHT),
+
+        //bumpers (x, y)
+        // Altered by Difficulty
+        this.bumper(halfW * 0.8, halfH * 1.3),
+        this.bumper(halfW * 1.2, halfH/2),
 
         // obstacles    
-        this.wall(330, 510, 300, 20, COLOR.INNER),
-        this.wall(620, 220, 200, 20, COLOR.INNER),
+        // Alter by Difficulty
+        this.wall(halfW/2, halfH * 1.8, 300, 20, COLOR.INNER),
+        this.wall(halfW * 1.5, halfH * 1.2, 200, 20, COLOR.INNER),
+
+        //scoreZone
+        this.scoreZone()
+
+      ]);
+    },
+    createStaticBodiesEasy() {
+      halfW = this.vpWidth/2;
+      halfH = this.vpHeight/2;
+      Matter.Composite.add(world, [
+        // canvas boundaries (top, left, right)(x, y, width, height)
+        this.boundary(halfW, -35, this.vpWidth, 100),
+        this.boundary(-30, 400, 100, 800),
+        this.boundary(this.vpWidth, 400, 35, 800),
+
+        // drops (left, right)
+        this.path(25, halfH, PATHS.DROP_LEFT),
+        this.path(halfW * 1.95, halfH * 0.8, PATHS.DROP_RIGHT),
+
+        // obstacles    
+        // Alter by Difficulty
+        this.wall(halfW/2, halfH * 1.8, 300, 20, COLOR.INNER),
+        this.wall(halfW * 1.5, halfH * 1.2, 200, 20, COLOR.INNER),
+
+        //scoreZone
+        this.scoreZone()
+
+      ]);
+    },
+    createStaticBodiesHard() {
+      halfW = this.vpWidth/2;
+      halfH = this.vpHeight/2;
+      Matter.Composite.add(world, [
+        // canvas boundaries (top, left, right)(x, y, width, height)
+        this.boundary(halfW, -35, this.vpWidth, 100),
+        this.boundary(-30, 400, 100, 800),
+        this.boundary(this.vpWidth, 400, 35, 800),
+
+        //bumpers (x, y)
+        // Altered by Difficulty
+        this.bumper(halfW * 0.8, halfH * 1.3),
+        this.bumper(halfW * 1.2, halfH/2),
+
+        // drops (left, right)
+        this.path(25, halfH, PATHS.DROP_LEFT),
+        this.path(halfW * 1.95, halfH * 0.8, PATHS.DROP_RIGHT),
+
+        // obstacles    
+        // Alter by Difficulty
+        this.wall(halfW/2, halfH * 1.8, 300, 20, COLOR.INNER),
+        this.wall(halfW * 1.5, halfH * 1.2, 200, 20, COLOR.INNER),
 
         //scoreZone
         this.scoreZone()
@@ -133,21 +201,13 @@ export default {
     plusPoints(score){
       this.currentScore += score;
     },
-    pingBumper(bumper) {
-    console.log(bumper);
-    this.updateScore(currentScore + 10);
-
-    //flash color
-    bumper.render.fillStyle = COLOR.BUMPER_LIT;
-    setTimeout(function() {
-      bumper.render.fillStyle = COLOR.BUMPER;
-    }, 100);
-  },
     EventHandler(){
       let self = this;
+      halfW = this.vpWidth/2;
+      halfH = this.vpHeight/2;
       //stacks
-      let stack = this.stack(200, 360, 8, 4);
-      let pyramind = this.pyramid(540, 100, 5, 4);
+      let stack = this.stack(halfW * 0.30, halfH * 1.2, 8, 3);
+      let pyramind = this.pyramid(halfW * 1.35, halfH * 0.5, 5, 4);
       let mouse = Matter.Mouse.create(render.canvas);
       let mouseConstraint = Matter.MouseConstraint.create(engine, {
             mouse:mouse,
@@ -157,7 +217,7 @@ export default {
         });
       let firing = false;
       //ball
-      let ball = Matter.Bodies.circle(200, 100, 15, {
+      let ball = Matter.Bodies.circle(halfW * 0.4, halfH * 0.8, 15, {
         label: 'ball',
         collisionFilter: {
           group: stopperGroup
@@ -168,9 +228,9 @@ export default {
       });
 
       let sling = Matter.Constraint.create({
-        pointA: {x:200, y:100},
+        pointA: {x:halfW * 0.4, y:halfH * 0.8},
         bodyB: ball,
-        stiffness: 0.03
+        stiffness: 0.08
       });
 
       Matter.Events.on(mouseConstraint, 'enddrag', function(e) {
@@ -178,8 +238,8 @@ export default {
       });
       let shots = 5;
       Matter.Events.on(engine, 'afterUpdate', function() {
-                if(firing && Math.abs(ball.position.x-200) < 20 && Math.abs(ball.position.y-100) < 20) {
-                    ball = Matter.Bodies.circle(200, 100, 15, {
+                if(firing && Math.abs(ball.position.x- (halfW * 0.4)) < 20 && Math.abs(ball.position.y- (halfH * 0.8)) < 20) {
+                    ball = Matter.Bodies.circle(halfW * 0.4, halfH * 0.8, 15, {
                       label: 'ball',
                       collisionFilter: {
                         group: stopperGroup
@@ -308,7 +368,7 @@ export default {
   },
 
   scoreZone() {
-    return Matter.Bodies.rectangle(430, 930, 1000, 1, {
+    return Matter.Bodies.rectangle(430, 930, 1500, 1, {
       label: 'scorezone',
       isStatic: true,
       render: {
