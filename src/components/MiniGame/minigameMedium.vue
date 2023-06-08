@@ -2,13 +2,12 @@
 <template>
   <div id="buttonContainer">
       <button @click="this.init()">Play</button>
-      <button @click="this.openLeaderboard()" id="myBtn">Leaderboard</button>
   </div>
   <div id="container">
     <div  v-if="this.gameStart" class="score current-score">
-      score<br><span>{{currentScore}}</span>
+      <br><span>{{currentScore}}</span>
     </div>
-    
+    <button v-if="this.gameStart" @click="this.destroyGame()" class="close-button">X</button>
   </div>
 
 </template>
@@ -39,7 +38,7 @@ const BUMPER_BOUNCE = 1.5;
 
 // shared variables
 let currentScore, highScore;
-let engine, world, render, stopperGroup;
+let engine, world, render, stopperGroup, runner;
 let halfH, halfW;
 
 export default {
@@ -65,16 +64,17 @@ export default {
       let modal = document.getElementById('myModal');
       modal.style.display = 'block';
     },
+    updateAfterGame(){
+      document.getElementById("Score").innerHTML = this.currentScore;
+      document.getElementById("Date").innerHTML = "08 June 2023";
+      let element = document.getElementById("gameModal");
+      element.style.display = 'block';
+      document.getElementById("spriteTracker").innerHTML = 'nerdSpriteEasy';
+    },
     init() {
-      // Configuration and Display Settings
       this.difficulty = document.getElementById('DifficultyTracker').innerHTML;
-
       document.getElementById('sprite-container').style.display = 'none';
       document.getElementById('buttonContainer').style.display = 'none';
-      console.log('Width: ' + this.vpWidth);
-      console.log('Height: ' + this.vpHeight);
-      
-
       // engine (shared)
       engine = Matter.Engine.create();
 
@@ -100,16 +100,14 @@ export default {
       Matter.Render.run(render);
 
       // runner
-      let runner = Matter.Runner.create();
+      runner = Matter.Runner.create();
       Matter.Runner.run(runner, engine);
 
       stopperGroup = Matter.Body.nextGroup(true);
       this.gameStart = true;
+      this.difficulty = 'Hard';
       if (this.difficulty == 'Easy'){
         this.createStaticBodiesEasy();
-      }
-      else if (this.difficulty == 'Medium'){
-        this.createStaticBodiesMedium();
       }
       else {
         this.createStaticBodiesHard();
@@ -119,33 +117,19 @@ export default {
 
 
     },
-      createStaticBodiesMedium() {
-      halfW = this.vpWidth/2;
-      halfH = this.vpHeight/2;
-      Matter.Composite.add(world, [
-        // canvas boundaries (top, left, right)(x, y, width, height)
-        this.boundary(halfW, -35, this.vpWidth, 100),
-        this.boundary(-30, 400, 100, 800),
-        this.boundary(this.vpWidth, 400, 35, 800),
+    destroyGame(){
+      this.gameStart = false;
+      Matter.World.clear(world);
+      Matter.Engine.clear(engine);
+      Matter.Render.stop(render);
+      Matter.Runner.stop(runner);
+      render.canvas.remove();
+      render.canvas = null;
+      render.context = null;
+      render.textures = {};
+      document.getElementById('sprite-container').style.display = 'block';
+      document.getElementById('buttonContainer').style.display = 'flex';
 
-        // drops (left, right)
-        this.path(25, halfH, PATHS.DROP_LEFT),
-        this.path(halfW * 1.95, halfH * 0.8, PATHS.DROP_RIGHT),
-
-        //bumpers (x, y)
-        // Altered by Difficulty
-        this.bumper(halfW * 0.8, halfH * 1.3),
-        this.bumper(halfW * 1.2, halfH/2),
-
-        // obstacles    
-        // Alter by Difficulty
-        this.wall(halfW/2, halfH * 1.8, 300, 20, COLOR.INNER),
-        this.wall(halfW * 1.5, halfH * 1.2, 200, 20, COLOR.INNER),
-
-        //scoreZone
-        this.scoreZone()
-
-      ]);
     },
     createStaticBodiesEasy() {
       halfW = this.vpWidth/2;
@@ -206,7 +190,7 @@ export default {
       halfW = this.vpWidth/2;
       halfH = this.vpHeight/2;
       //stacks
-      let stack = this.stack(halfW * 0.30, halfH * 1.2, 8, 3);
+      let stack = this.stack(halfW * 0.30, halfH * 1.39, 8, 3);
       let pyramind = this.pyramid(halfW * 1.35, halfH * 0.5, 5, 4);
       let mouse = Matter.Mouse.create(render.canvas);
       let mouseConstraint = Matter.MouseConstraint.create(engine, {
@@ -236,7 +220,13 @@ export default {
       Matter.Events.on(mouseConstraint, 'enddrag', function(e) {
             if(e.body === ball) firing = true;
       });
-      let shots = 5;
+
+      let shots;
+      if (this.difficulty == 'Easy') shots = 15;
+      else {
+        shots = 5;
+      }
+
       Matter.Events.on(engine, 'afterUpdate', function() {
                 if(firing && Math.abs(ball.position.x- (halfW * 0.4)) < 20 && Math.abs(ball.position.y- (halfH * 0.8)) < 20) {
                     ball = Matter.Bodies.circle(halfW * 0.4, halfH * 0.8, 15, {
@@ -257,18 +247,26 @@ export default {
                     firing = false;
                 }
             });
-
        // events for when stackitems hit the scoreZone
        Matter.Events.on(engine, 'collisionStart', function(event){
         let pairs = event.pairs;
         pairs.forEach(function(pair){
           if (pair.bodyA.label === 'scorezone'){
+            console.log(shots);
+            if(shots === 0){
+              self.updateScore(5, pair.bodyB.id);
+              setTimeout(() => {
+                self.destroyGame();
+                self.updateAfterGame();
+                }, 5000);
+              
+
+            }
             self.updateScore(5, pair.bodyB.id);
           }
         })
        });
        
-
        // events for when the pinball hits stuff
        Matter.Events.on(engine, 'collisionStart', function(event) {
         let pairs = event.pairs;
@@ -276,7 +274,7 @@ export default {
         pairs.forEach(function(pair) {
           if (pair.bodyB.label === 'ball') {
             switch (pair.bodyA.label) {
-              case 'stackItem':
+              case 'scorezone':
                 break;
               case 'bumper':
                 self.plusPoints(50);    
@@ -368,7 +366,7 @@ export default {
   },
 
   scoreZone() {
-    return Matter.Bodies.rectangle(430, 930, 1500, 1, {
+    return Matter.Bodies.rectangle(430, 830, 2500, 4, {
       label: 'scorezone',
       isStatic: true,
       render: {
@@ -402,5 +400,33 @@ export default {
 
 @import '../../assets/css/stylesheet.css';
 
+button {
+  width: 100px;
+}
 
+.close-button {
+  position: absolute;
+  right: 32px;
+  top: 32px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+}
+.close-button:hover {
+  opacity: 1;
+}
+.close-button:before, .close:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+}
+.close-button:before {
+  transform: rotate(45deg);
+}
+.close-button:after {
+  transform: rotate(-45deg);
+}
 </style>

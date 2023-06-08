@@ -1,7 +1,6 @@
 <template>
 
   <div id="sprite-container">
-      <p>PLACEHOLDER: SPRITE HAPPY</p>
             <div class="blackSprite">
               <div class="bolt"></div>
                 <div class="blackleg-left"></div>

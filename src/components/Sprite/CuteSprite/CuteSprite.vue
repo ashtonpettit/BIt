@@ -1,7 +1,6 @@
 <template>
 
     <div id="sprite-container">
-        <p>PLACEHOLDER: SPRITE SAD</p>
               <div class="sadSprite">
                 <div class="ear-left">
                     <div class="inner-ear"></div>

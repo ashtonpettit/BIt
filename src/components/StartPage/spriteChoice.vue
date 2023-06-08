@@ -1,10 +1,9 @@
 <template>
     <div id="images">
-        <img id="nerdSprite" @click="this.showAlert('nerdSprite')" src="../../assets/images/sprite.png">
-        <img id="summerSprite"  @click="this.showAlert('summerSprite')" src="../../assets/images/sprite.png">
-        <img id="cuteSprite" @click="this.showAlert('cuteSprite')" src="../../assets/images/sprite.png">
-        <img id="cheekySprite" @click="this.showAlert('cheekySprite')" src="../../assets/images/sprite.png">
-        <img id="babySprite" @click="this.showAlert('babySprite')" src="../../assets/images/sprite.png">
+        <img id="nerdSprite" @click="this.showAlert('nerdSprite')" src="../../assets/images/nerdSprite.png">
+        <img id="summerSprite"  @click="this.showAlert('summerSprite')" src="../../assets/images/summerSprite.png">
+        <img id="cuteSprite" @click="this.showAlert('cuteSprite')" src="../../assets/images/cuteSprite.png">
+        <img id="cheekySprite" @click="this.showAlert('cheekySprite')" src="../../assets/images/ghostSprite.png">
     </div>
 </template>
 

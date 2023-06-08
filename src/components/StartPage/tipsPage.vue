@@ -6,14 +6,12 @@
         </p>
         <p v-if="this.currentTip == 2">
             Tip 2
-            <br>Feed your bit-doodle! Your bit-doodle loves to eat {{ this.choice1 }} and {{ this.choice2 }}. Go to the shop and buy some for it. However you'll need Doodle Doolars to purchase with.
+            <br>If you use more energy and the Bit-Verse is dirty- no problem! Try your shot at the slingshot game. The higher the score, the more pollution you clean up.
         </p>
         <p v-if="this.currentTip == 3">
             Tip 3
-            <br>Need Doodle Doolars? Try competeing in the Sling Shot Game. Bit-Doodles looooove that game and reward the best players. However, your pollution will affect how easy or hard the game is.
-            Using less energy will make earning Doodle Doolars much easier but you can still try even if you did pollute the Bit-Verse. That's how much Doodles love to watch you play!
+            <br>But the best way to make your Bit-Doodle happy is to try use less energy in your everyday life.
         </p>
-        <p v-if="this.currentTip == 3">Want to know how the Bit-Verse is being affected by your energy usage? Click on 'Data Breakdown' to learn more.</p>
         <button v-if="this.currentTip != 3" @click="this.nextTip()">Next Tip</button>
     </div>
 </template>
